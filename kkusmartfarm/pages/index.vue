@@ -10,7 +10,7 @@ export default {
   comments: { Menu },
   data() {
     return {
-      message: 'Hello',
+      message: 'Hello2',
       name: 'Panuwat',
       pagename: 'This is your name',
       clickTime: 'Your Click at' + new Date(),
