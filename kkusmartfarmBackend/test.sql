@@ -1,0 +1,16 @@
+insert into fertilizer_activity SET
+  activity_time_begin='3:20',
+  activity_time_end='12:0',
+  activity_mode='auto by time',
+  activity_weekday='Fri',
+  activity_plant_plot='1',
+  activity_status='off',
+  activity_ec_min='3',
+  activity_ec_max='4',
+  activity_ph_min='1',
+  activity_ph_max='2',
+  activity_moisture=0,
+  activity_ratio='{"fertilizer1":"7","fertilizer2":"8","fertilizer3":"9","water":"10","mix":"11","Test":"12","Test2":"13","Nitrogen":"14"}',
+  activity_humid_min='5',
+  activity_humid_max='6',
+  activity_frequency='some days'
