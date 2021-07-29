@@ -108,12 +108,45 @@ export default {
     closeModal(args) {
       this.$root.$emit('bv::hide::modal', args)
     },
+    toast(_class = 'info', massage, _type) {
+      const blog = this.$createElement
+      let icon = String
+      if (_class === 'false') {
+        icon = 'la-times'
+      } else if (_class === 'success') {
+        icon = 'la-check'
+      } else if (_class === 'warning') {
+        icon = 'la-exclamation-circle'
+      }
+      const content = blog('p', { class: '' }, [
+        blog('div', { class: 'massage-content' }, [
+          blog('i', { class: `las la-check ${icon}` }),
+          blog('span', { class: 'toast-text' }, massage),
+        ]),
+      ])
+      this.$bvToast.toast([content], {
+        variant: _class,
+        solid: true,
+        noCloseButton: true,
+      })
+    },
     async save() {
       const url = 'http://localhost:5000/fertilizer/addFertilizer'
       const response = await axios.post(url, this.data)
-      console.log(response.data)
-      const closeActivity = await this.closeModal('addFertilizer')
-      console.log(closeActivity)
+      if (response.status === 200) {
+        this.toast(
+          'success',
+          `Insert ${this.data.fertilizer_name} Success`,
+          'insert Fertilizer Success'
+        )
+        this.closeModal('addFertilizer')
+      } else {
+        this.toast(
+          'false',
+          `Can't Insert ${this.data.fertilizer_name}`,
+          `fail to insert fertilizer`
+        )
+      }
     },
   },
 }

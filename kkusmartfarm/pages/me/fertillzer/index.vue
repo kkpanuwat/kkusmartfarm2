@@ -1004,9 +1004,17 @@ export default {
     },
     toast(_class = 'info', massage, _type) {
       const blog = this.$createElement
+      let icon = String
+      if (_class === 'false') {
+        icon = 'la-times'
+      } else if (_class === 'success') {
+        icon = 'la-check'
+      } else if (_class === 'warning') {
+        icon = 'la-exclamation-circle'
+      }
       const content = blog('p', { class: '' }, [
         blog('div', { class: 'massage-content' }, [
-          blog('i', { class: 'las la-check icon-success' }),
+          blog('i', { class: `las la-check ${icon}` }),
           blog('span', { class: 'toast-text' }, massage),
         ]),
       ])
@@ -1209,7 +1217,18 @@ export default {
               fertilizer.fertilizer_id
             )
             if (modalStatus === true) {
+              this.toast(
+                'success',
+                `Update ${fertilizerEdit.fertilizer_name} Success`,
+                'Update Fertilizer'
+              )
               this.$bvModal.hide()
+            } else {
+              this.toast(
+                'false',
+                `Can't update ${fertilizerEdit.fertilizer_name}`,
+                `Can't update Fertilizer`
+              )
             }
           } else {
             // this.$bvModal.hide()
@@ -1225,9 +1244,9 @@ export default {
         const load = await this.loadData()
         if (load === true) {
           return true
-        } else {
-          return false
         }
+      } else {
+        return false
       }
     },
     deleteFertilizer(fertilizer) {
@@ -1254,8 +1273,8 @@ export default {
             )
           }
         }
-      } catch (error) {
-        console.log('error')
+      } catch (e) {
+        console.log(e)
       }
     },
   },
@@ -1833,6 +1852,11 @@ footer#addActivity___BV_modal_footer_ {
   border-left: 10px solid var(--color-active);
 }
 
+.b-toast-false {
+  background-color: white;
+  border-left: 10px solid var(--color-red);
+}
+
 .b-toast-success .toast .toast-header {
   background-color: white;
   color: var(--color-main);
@@ -1874,6 +1898,39 @@ div.toast-body {
   height: 30px;
   color: white;
   background-color: var(--color-active);
+  border-radius: 100%;
+}
+
+.la-exclamation-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  color: white;
+  background-color: var(--color-orange);
+  border-radius: 100%;
+}
+
+.la-check {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  color: white;
+  background-color: var(--color-active);
+  border-radius: 100%;
+}
+
+.la-times {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  color: white;
+  background-color: var(--color-red);
   border-radius: 100%;
 }
 

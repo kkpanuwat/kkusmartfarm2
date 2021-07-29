@@ -98,21 +98,21 @@ exports.getQueue = function (req, res) {
 };
 
 exports.addFertilizer = function (req, res) {
-  let Data = req.body;
-  console.log(Data);
+  const Data = req.body;
   try {
     conn.query(
       "INSERT INTO fertilizer_item SET ?",
       Data,
       function (error, result, field) {
         if (error) {
-          console.log("error");
+          res.status(204).json( {message: 'somting went wrong'} )
         }
         res.status(200).json({ message: "success" });
-        console.log("Insert Success");
       }
     );
-  } catch (error) {}
+  } catch (error) {
+    res.status(401).json({ message: 'somthing went wrong' })
+  }
 };
 
 exports.updateFertilizer = function (req, res) {
@@ -125,7 +125,7 @@ exports.updateFertilizer = function (req, res) {
       function (error, result, field) {
         console.log(result)
         if (result.changedRows === 0) {
-          res.status(401).json({ message: "something went wrong" });
+          res.status(204).json({ message: "something went wrong" });
         } else {
           res.json({ message: 'Success' })
         }
@@ -135,7 +135,6 @@ exports.updateFertilizer = function (req, res) {
 };
 
 exports.deleteFertilizer = function (req, res) {
-  console.log(req.body);
   try {
     conn.query(
       "DELETE FROM fertilizer_item WHERE ?",
