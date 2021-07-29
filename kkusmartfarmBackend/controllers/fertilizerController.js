@@ -34,7 +34,7 @@ exports.getFertilizer = function (req, res) {
 
 exports.addActivity = function (req, res) {
   try {
-    console.log("Addactivity")
+    console.log("Addactivity");
     let data = req.body;
     data["activity_frequency"] = "some days";
     if (data.activity_weekday.length == 7) {
@@ -123,10 +123,11 @@ exports.updateFertilizer = function (req, res) {
       "UPDATE fertilizer_item SET ? WHERE fertilizer_id = ?",
       [data, id],
       function (error, result, field) {
-        if (error) {
-          res.status(400);
+        console.log(result)
+        if (result.changedRows === 0) {
+          res.status(401).json({ message: "something went wrong" });
         } else {
-          console.log("Success");
+          res.json({ message: 'Success' })
         }
       }
     );
@@ -145,7 +146,7 @@ exports.deleteFertilizer = function (req, res) {
         }
       }
     );
-    res.status(200).json({message: 'Test'});
+    res.status(200).json({ message: "Test" });
   } catch (error) {
     res.status(400);
   }

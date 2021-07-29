@@ -844,6 +844,7 @@ export default {
       })
       const working = await axios.get('http://localhost:5000/fertilizer/queue')
       this.fertilizer_working = working.data.result
+      return true
     },
     checkDays(...args) {
       if (args[0].includes(args[1])) {
@@ -1185,7 +1186,7 @@ export default {
             'Cancel'
           ),
         })
-        .then((value) => {
+        .then(async (value) => {
           if (value) {
             fertilizerEdit.fertilizer_name = document.getElementById(
               'fertilizer_name_edit'
@@ -1202,9 +1203,16 @@ export default {
             fertilizerEdit.fertilizer_total = parseInt(
               document.getElementById('fertilizer_total_edit').value
             )
-            this.updateFertilizer(fertilizerEdit, fertilizer.fertilizer_id)
+            console.log('wait for update')
+            const modalStatus = await this.updateFertilizer(
+              fertilizerEdit,
+              fertilizer.fertilizer_id
+            )
+            if (modalStatus === true) {
+              this.$bvModal.hide()
+            }
           } else {
-            this.$bvModal.hide()
+            // this.$bvModal.hide()
           }
         })
     },
@@ -1213,8 +1221,14 @@ export default {
         'http://localhost:5000/fertilizer/updateFertilizer',
         { data: fertilizer, id: fertilizerId }
       )
-      console.log(response)
-      this.loadData()
+      if (response.status === 200) {
+        const load = await this.loadData()
+        if (load === true) {
+          return true
+        } else {
+          return false
+        }
+      }
     },
     deleteFertilizer(fertilizer) {
       this.deleteFertilizerItem = fertilizer
