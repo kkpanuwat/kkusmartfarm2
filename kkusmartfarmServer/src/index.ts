@@ -42,7 +42,7 @@ createConnection({
     subscribersDir: "src/subscriber",
   },
 });
-// Function
+// Function2
 async function checkAccessToken(accessToken: string) {
   try {
     const jwtData = jwt.verify(accessToken, process.env.JWT_KEY);
