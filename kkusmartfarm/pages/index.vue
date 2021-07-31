@@ -3,7 +3,7 @@
     <div><nuxt-link to="/login">Go To Login</nuxt-link></div>
   </div>
 </template>
-
+<!-- Version2 -->
 <script>
 import Menu from '@/components/Menu.vue'
 export default {

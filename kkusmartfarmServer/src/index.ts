@@ -51,10 +51,10 @@ async function checkAccessToken(accessToken: string) {
     ).findOne({ refreshToken: jwtData.refreshToken });
     if (!refreshTokenData) return "refreshToken not found";
     const dateNow = new Date();
-    if (dateNow > refreshTokenData.expire) return "refreshToken expire";
+    if (dateNow > refreshTokenData.expire) return false;
     const date = new Date();
     refreshTokenData.expire.setTime(date.getTime() + 15 * 60000);
-    await getCustomRepository(RefreshTokenRepository).save(refreshTokenData)
+    await getCustomRepository(RefreshTokenRepository).save(refreshTokenData);
     return jwtData;
   } catch {
     return "invalid accessToken";
@@ -79,8 +79,14 @@ app.post("/insertFertilizer", async (req: Request, res: Response) => {
     fertilizer.total = req.body["fertilizer_total"];
     fertilizer.topic = req.body["fertilizer_item_topic"];
     fertilizer.tankLevel = req.body["fertilizer_tank_level"];
-    await getCustomRepository(FertilizerItemRepository).save(fertilizer);
-    res.send("success");
+    const tokenID = req.body["tokenID"];
+    const userData = await checkAccessToken(tokenID);
+    if (!userData) {
+      res.json({ message: "tokenID expire" });
+    } else {
+      await getCustomRepository(FertilizerItemRepository).save(fertilizer);
+      res.send("success");
+    }
   } catch (error) {
     throw error;
   }
