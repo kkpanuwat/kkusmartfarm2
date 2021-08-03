@@ -202,7 +202,7 @@ h6 {
 .btn-register:hover {
   color: var(--color-dark-violet);
   font-size: 1rem;
-  transition: 0.7s all;
+  transition: 0.3s all;
 }
 
 @media only screen and (max-width: 1124px) {
